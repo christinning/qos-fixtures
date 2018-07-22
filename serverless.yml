@@ -58,7 +58,7 @@ provider:
 functions:
   scrape:
     handler: handler.scrape
-    memorySize: 128
+    memorySize: 256
     events:
       - http:
           path: calendar/qos.ical
