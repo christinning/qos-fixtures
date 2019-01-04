@@ -6,7 +6,10 @@ function toMatch(callback, [homeAway, day, time, opposition, tourney]){
 
   var dateTime = moment.tz(day.slice(5) + " " + time, 'DD MMM h:m aa', 'Europe/London');
   var now = moment();
-  var year = dateTime.month() > 4 ? now.year() : now.year() + 1;
+  var afterNewYear = now.month() >= 0 && now.month() < 6;
+  var seasonStartYear = afterNewYear ? now.year() - 1 : now.year();
+  var seasonEndYear = seasonStartYear + 1;
+  var year = dateTime.month() > 4 ? seasonStartYear : seasonEndYear;
   dateTime.year(year);
   callback({against: opposition, time: dateTime, at: homeAway === 'A' ? 'A' : 'H', tournament: tourney});
 }
