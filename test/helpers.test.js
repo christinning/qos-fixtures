@@ -24,7 +24,8 @@ describe('Extract match objects', function () {
 
     var firstMatch = matches[0];
 
-    assert(moment("30/6/18 2:00 PM", 'DD/MM/YY h:mm a').tz('Europe/London').isSame(firstMatch.time));
+    assert.strictEqual(firstMatch.time.tz('Europe/London').toString(),
+        moment("30 Jun 2018 2:00 PM", 'DD MMM YYYY h:mm a').tz('Europe/London').toString());
     assert.strictEqual(firstMatch.at, "A");
     assert.strictEqual(firstMatch.tournament, "Friendly");
     assert.strictEqual(firstMatch.against, "Annan Athletic");
