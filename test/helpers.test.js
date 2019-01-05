@@ -34,7 +34,7 @@ describe('Extract match objects', function () {
 
     var lastMatch = matches[matches.length - 1];
 
-    assert(moment("04/5/19 3:00 PM", 'DD/MM/YY h:mm a').isSame(lastMatch.time));
+    assert.strictEqual(lastMatch.time.tz('Europe/London').toString(), 'Sat May 04 2019 15:00:00 GMT+0100');
     assert.strictEqual(lastMatch.at, "H");
     assert.strictEqual(lastMatch.tournament, "Ladbrokes Championship");
     assert.strictEqual(lastMatch.against, "Partick Thistle");
@@ -47,15 +47,14 @@ describe('Extract match objects', function () {
 
     var firstMatch = matches[0];
 
-    assert.strictEqual(firstMatch.time.tz('Europe/London').toString(),
-        moment("30 Jun 2018 2:00 PM", 'DD MMM YYYY h:mm a').tz('Europe/London').toString());
+    assert.strictEqual(firstMatch.time.tz('Europe/London').toString(), 'Sat Jun 30 2018 14:00:00 GMT+0100')
     assert.strictEqual(firstMatch.at, "A");
     assert.strictEqual(firstMatch.tournament, "Friendly");
     assert.strictEqual(firstMatch.against, "Annan Athletic");
 
     var lastMatch = matches[matches.length - 1];
 
-    assert(moment("04/5/19 3:00 PM", 'DD/MM/YY h:mm a').isSame(lastMatch.time));
+    assert.strictEqual(lastMatch.time.tz('Europe/London').toString(), 'Sat May 04 2019 15:00:00 GMT+0100');
     assert.strictEqual(lastMatch.at, "H");
     assert.strictEqual(lastMatch.tournament, "Ladbrokes Championship");
     assert.strictEqual(lastMatch.against, "Partick Thistle");
