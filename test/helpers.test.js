@@ -4,20 +4,14 @@ var moment = require('moment-timezone')
 
 const {extractListingsFromHTML, toICal} = require(__dirname+'/../helpers');
 
-var html;
-fs.readFile(__dirname + '/data.html', 'utf8', function (err, data) {
-  if (err) {
-    throw err;
-  }
-  html = data;
-});
-
-const now = moment("1 Jul 2018 2:00 PM", 'DD MMM YYYY h:mm a');
+let html = fs.readFileSync(__dirname + '/data.html', 'utf8');
+let now = moment("1 Jul 2018 2:00 PM", 'DD MMM YYYY h:mm a');
 
 describe('Extract match objects', function () {
 
   it('returns one object per match ', function(){
-    assert.strictEqual(extractListingsFromHTML(html, now).length, 45);
+    assert.strictEqual(extractListingsFromHTML(html, now).length, 45,
+        "Now: " + now.toString() + "; Html: " + html);
   });
 
   it('a match object created from scrape in first half of season', function(){
