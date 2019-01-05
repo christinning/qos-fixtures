@@ -2,10 +2,9 @@ const $ = require('cheerio');
 const moment = require('moment-timezone');
 const ical = require('ical-generator');
 
-function toMatch(callback, [homeAway, day, time, opposition, tourney]){
+function toMatch(callback, now, [homeAway, day, time, opposition, tourney]){
 
   var dateTime = moment.tz(day.slice(5) + " " + time, 'DD MMM h:m aa', 'Europe/London');
-  var now = moment();
   var afterNewYear = now.month() >= 0 && now.month() < 6;
   var seasonStartYear = afterNewYear ? now.year() - 1 : now.year();
   var seasonEndYear = seasonStartYear + 1;
@@ -14,21 +13,23 @@ function toMatch(callback, [homeAway, day, time, opposition, tourney]){
   callback({against: opposition, time: dateTime, at: homeAway === 'A' ? 'A' : 'H', tournament: tourney});
 }
 
-function extractListingsFromHTML (html) {
+function extractListingsFromHTML (html, now) {
   var fixtures = $('.awaydivcss , .homedivcss', html);
   var result = [];
 
   for(var i = 0; i < fixtures.length; i = i + 2){
     var texts = $('td',fixtures.slice(i, i+1)).map((i, e) => $(e).text().trim());
-    toMatch((x) => result.push(x), texts.toArray());
+    toMatch((x) => result.push(x), now, texts.toArray());
   }
 
   return result;
 }
 
-function toICal(html){
+function toICal(html, now){
 
-  var matches = extractListingsFromHTML(html)
+  if (typeof now === 'undefined') { now = moment(); }
+
+  var matches = extractListingsFromHTML(html, now)
 
 // Create new Calendar and set optional fields
   const cal = ical({

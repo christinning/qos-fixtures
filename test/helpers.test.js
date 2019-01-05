@@ -12,15 +12,38 @@ fs.readFile(__dirname + '/data.html', 'utf8', function (err, data) {
   html = data;
 });
 
+const now = moment("1 Jul 2018 2:00 PM", 'DD MMM YYYY h:mm a');
 
 describe('Extract match objects', function () {
 
   it('returns one object per match ', function(){
-    assert.strictEqual(extractListingsFromHTML(html).length, 45);
+    assert.strictEqual(extractListingsFromHTML(html, now).length, 45);
   });
 
-  it('a match object created', function(){
-    var matches = extractListingsFromHTML(html);
+  it('a match object created from scrape in first half of season', function(){
+
+    const nowBeforeNewYear = moment("1 Jul 2018 2:00 PM", 'DD MMM YYYY h:mm a');
+    var matches = extractListingsFromHTML(html, nowBeforeNewYear);
+
+    var firstMatch = matches[0];
+
+    assert.strictEqual(firstMatch.time.tz('Europe/London').toString(), 'Sat Jun 30 2018 14:00:00 GMT+0100')
+    assert.strictEqual(firstMatch.at, "A");
+    assert.strictEqual(firstMatch.tournament, "Friendly");
+    assert.strictEqual(firstMatch.against, "Annan Athletic");
+
+    var lastMatch = matches[matches.length - 1];
+
+    assert(moment("04/5/19 3:00 PM", 'DD/MM/YY h:mm a').isSame(lastMatch.time));
+    assert.strictEqual(lastMatch.at, "H");
+    assert.strictEqual(lastMatch.tournament, "Ladbrokes Championship");
+    assert.strictEqual(lastMatch.against, "Partick Thistle");
+  });
+
+  it('a match object created from scrape in second half of season', function(){
+
+    const nowAfterNewYear = moment("1 Feb 2019 2:00 PM", 'DD MMM YYYY h:mm a');
+    var matches = extractListingsFromHTML(html, nowAfterNewYear);
 
     var firstMatch = matches[0];
 
@@ -39,7 +62,7 @@ describe('Extract match objects', function () {
   });
 
   it('create an ical', function() {
-    var cal = toICal(html);
+    var cal = toICal(html, now);
 
 
     var e = cal.events()[0];
