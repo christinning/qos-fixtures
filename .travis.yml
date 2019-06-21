@@ -7,8 +7,3 @@ jobs:
   include:
     - stage: test
       script: npm test
-    - stage: deploy
-      if: branch = master
-      script:
-        - npm install -g serverless
-        - sls deploy
