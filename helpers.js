@@ -5,8 +5,8 @@ const ical = require('ical-generator');
 function toMatch(callback, now, [homeAway, day, time, opposition, tourney]){
 
   var dateTime = moment.tz(day.slice(5) + " " + time, 'DD MMM h:m aa', 'Europe/London');
-  var afterNewYear = now.month() >= 0 && now.month() < 6;
-  var seasonStartYear = afterNewYear ? now.year() - 1 : now.year();
+  var isJanuaryToMay = now.month() >= 0 && now.month() < 5;
+  var seasonStartYear = isJanuaryToMay ? now.year() - 1 : now.year();
   var seasonEndYear = seasonStartYear + 1;
   var year = dateTime.month() > 4 ? seasonStartYear : seasonEndYear;
   dateTime.year(year);
