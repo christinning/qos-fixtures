@@ -5,5 +5,10 @@ before_install:
   - npm i -g npm@6.1.0
 jobs:
   include:
-    - stage : test
+    - stage: test
       script: npm test
+    - stage: deploy
+      if: branch = master
+      script:
+        - npm install -g serverless
+        - sls deploy
