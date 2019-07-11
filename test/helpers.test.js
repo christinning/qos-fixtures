@@ -2,7 +2,7 @@ var assert = require('assert');
 var fs = require('fs');
 var moment = require('moment-timezone')
 
-const {extractListingsFromHTML, toICal} = require(__dirname+'/../helpers');
+const {extractListingsFromHTML, toICal, toMatch} = require(__dirname+'/../helpers');
 
 let html = fs.readFileSync(__dirname + '/data.html', 'utf8');
 let now = moment("21 Jun 2018 2:00 PM", 'DD MMM YYYY h:mm a');
@@ -52,6 +52,15 @@ describe('Extract match objects', function () {
     assert.strictEqual(lastMatch.at, "H");
     assert.strictEqual(lastMatch.tournament, "Ladbrokes Championship");
     assert.strictEqual(lastMatch.against, "Partick Thistle");
+  });
+
+  it('handles matches on 29th Feb', function(){
+
+    const now = moment("11 Jul 2019 2:00 PM", 'DD MMM YYYY h:mm a');
+    var match = toMatch(now, ["H", "Sat, 29 Feb", "3:00 PM", "Rangers", "Friendly"]);
+
+    assert.strictEqual(match.time.isValid(), true);
+
   });
 
   it('create an ical', function() {
