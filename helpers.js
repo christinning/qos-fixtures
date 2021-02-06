@@ -4,14 +4,15 @@ const ical = require('ical-generator');
 
 function toMatch(now, [homeAway, day, time, opposition, tourney]){
 
-  var dateTime = moment.tz(day.slice(5) + " " + time, 'DD MMM h:m aa', 'Europe/London');
+  let dayDatePart = day.slice(4);
+  var dateTime = moment.tz(dayDatePart + " " + time, 'DD MMM h:m aa', 'Europe/London');
   let isJanuaryToMay = now.month() >= 0 && now.month() < 5;
   let seasonStartYear = isJanuaryToMay ? now.year() - 1 : now.year();
   let seasonEndYear = seasonStartYear + 1;
   let year = dateTime.month() > 4 ? seasonStartYear : seasonEndYear;
 
   // reparse the datetime to ensure Feb 29 is dealt with
-  dateTime = moment.tz(year + " " + day.slice(5) + " " + time, 'YYYY DD MMM h:m aa', 'Europe/London')
+  dateTime = moment.tz(year + " " + dayDatePart + " " + time, 'YYYY DD MMM h:m aa', 'Europe/London')
   return {against: opposition, time: dateTime, at: homeAway === 'A' ? 'A' : 'H', tournament: tourney};
 }
 
