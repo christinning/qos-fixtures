@@ -8,7 +8,7 @@ service: qos-fixtures
 
 provider:
   name: aws
-  runtime: nodejs6.10
+  runtime: nodejs14.x
   profile: serverless
 
 functions:
