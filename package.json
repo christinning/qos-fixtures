@@ -11,7 +11,7 @@
     "cheerio": "^1.0.0-rc.3",
     "ical-generator": "^1.11.0",
     "lodash": "^4.17.20",
-    "minimist": ">=0.2.1",
+    "minimist": ">=1.2.6",
     "moment": "^2.29.1"
   },
   "devDependencies": {
