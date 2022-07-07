@@ -12,7 +12,7 @@
     "ical-generator": "^1.11.0",
     "lodash": "^4.17.20",
     "minimist": ">=0.2.1",
-    "moment": "^2.29.1"
+    "moment": "^2.29.4"
   },
   "devDependencies": {
     "mocha": "^8.3.0",
